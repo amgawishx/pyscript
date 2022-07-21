@@ -168,7 +168,13 @@ class Element:
         if mime_type in ("application/javascript", "text/html"):
             script_element = document.createRange().createContextualFragment(html)
             out_element.appendChild(script_element)
+        
+        #FIXME: scan for escape characters and render them appropriately
         else:
+            escape_character_table = {"\n": "<br>",
+                                                       "\t": "&emsp",}
+            for key in escape_character_table:
+                html.replace(key, escape_character_table[key])
             out_element.innerHTML = html
 
     def clear(self):
